@@ -838,6 +838,123 @@ scancodeDictionaries = {
         },
     },
 
+    '5250_PROGRAMMER_DVORAK': {
+
+        # SPECIAL KEYS MAPPINGS
+        'CTRL_PRESS': [0x54],
+        'CTRL_RELEASE': [0xD4],
+        'ALT_PRESS': [0x68],
+        'ALT_RELEASE': [],
+        'SHIFT_PRESS': [0x57, 0x56],
+        'SHIFT_RELEASE': [0xD7, 0xD6],
+        'CAPS_LOCK': [0x7E],
+        'EXTRA': [],
+
+        # FUNCTION BLOCK KEYS MAPPINGS
+        # KEYS FROM TOP TO BOTTOM AND FROM LEFT TO RIGHT
+        # ROW 1
+        0x7C: [chr(0x1B), chr(0x1B), '', ''],  # F1 as ESC
+        0x6F: [chr(0x1B), chr(0x1B), '', ''],  # F2 as ESC
+        # ROW 2
+        # 0x6C: ['', '', '', ''], #F3
+        # 0x6D: ['', '', '', ''], #F4
+        # ROW 3
+        # 0x6E: ['', '', '', ''], #F5
+        # 0x7D: ['', '', '', ''], #F6
+        # ROW 4
+        # 0x71: ['', '', '', ''], #F7
+        # 0x70: ['', '', '', ''], #F8
+        # ROW 5
+        # 0x72: ['', '', '', ''], #F9
+        # 0x73: ['', '', '', ''], #F10
+
+        # MAIN ALPHA AND NUMPAD BLOCK KEYS MAPPINGS
+        # KEYS FROM TOP TO BOTTOM AND FROM LEFT TO RIGHT
+        # ROW 1
+        0x3E: ['$', '~', '`', ''],
+        0x31: ['&', '%', '', ''],
+        0x32: ['[', '7', '', ''],
+        0x33: ['{', '5', '', ''],
+        0x34: ['}', '3', '', ''],
+        0x35: ['(', '1', '', ''],
+        0x36: ['=', '9', '', ''],
+        0x37: ['*', '0', '', ''],
+        0x38: [')', '2', '', ''],
+        0x39: ['+', '4', '', ''],
+        0x3A: [']', '6', '', ''],
+        0x3B: ['!', '8', '', chr(0x1C)],
+        0x3C: ['#', '`', '', ''],
+        0x3D: [chr(0x08), chr(0x08), '', ''],  # BS
+        0x4B: ['', '', '', ''],
+        0x4C: ['', '', '', ''],  # DUP
+        # ROW 2
+        0x20: [chr(0x09), chr(0x09), '', ''],  # TAB
+        0x21: [';', ':', '', chr(0x11)],
+        0x22: [',', '<', '', chr(0x17)],
+        0x23: ['.', '>', '', chr(0x05)],
+        0x24: ['p', 'P', '', chr(0x12)],
+        0x25: ['y', 'y', '', chr(0x14)],
+        0x26: ['f', 'F', '', chr(0x19)],
+        0x27: ['g', 'G', '', chr(0x15)],
+        0x28: ['c', 'C', '', chr(0x09)],
+        0x29: ['r', 'R', '', chr(0x0F)],
+        0x2A: ['l', 'L', '', chr(0x10)],
+        0x2B: ['/', '?', '', chr(0x1B)],
+        0x2C: ['@', '^', '', chr(0x1D)],
+        0x2D: [chr(0x0D), chr(0x0D), '', ''],  # ENTER
+        0x47: ['7', '7', '', ''],
+        0x48: ['8', '8', chr(0x1B), chr(0x1B), 'A'],  # NUMPAD 8 and UP ARROW
+        0x49: ['9', '9', '', ''],
+        0x4E: ['', '', '', ''],  # CAMPO-
+        # ROW 3
+        # 0x54 ['', '', ''], #SHIFT
+        0x11: ['a', 'A', '', chr(0x01)],
+        0x12: ['o', 'O', '', chr(0x13)],
+        0x13: ['e', 'E', '', chr(0x04)],
+        0x14: ['u', 'U', '', chr(0x06)],
+        0x15: ['i', 'I', '', chr(0x07)],
+        0x16: ['d', 'D', '', chr(0x08)],
+        0x17: ['h', 'H', '', chr(0x0A)],
+        0x18: ['t', 'T', '', chr(0x0B)],
+        0x19: ['n', 'N', '', chr(0x0C)],
+        0x1A: ['s', 'S', '', ''],
+        0x1B: ['-', '_', '', chr(0x1B)],
+        0x1C: ['{', '}', '', chr(0x1D)],
+        0x44: ['4', '4', chr(0x1B), chr(0x1B), 'D'],  # NUMPAD 4 and LEFT ARROW
+        0x45: ['5', '5', '', ''],
+        # NUMPAD 6 and RIGHT ARROW
+        0x46: ['6', '6', chr(0x1B), chr(0x1B), 'C'],
+        0x4D: [chr(0x0D), '', '', ''],  # ENTER
+        # ROW 4
+        # 0x57: ['', '', ''], #CTRL
+        0x0E: ['\'', '"', '', ''],
+        0x01: ['\'', '"', '', chr(0x1A)],
+        0x02: ['q', 'Q', '', chr(0x18)],
+        0x03: ['j', 'J', '', chr(0x03)],
+        0x04: ['k', 'K', '', chr(0x16)],
+        0x05: ['x', 'X', '', chr(0x02)],
+        0x06: ['b', 'B', '', chr(0x0E)],
+        0x07: ['m', 'M', '', chr(0x0D)],
+        0x08: ['w', 'W', '', ''],
+        0x09: ['v', 'V', '', ''],
+        0x0A: ['z', 'Z', '', chr(0x1F)],
+        # 0x56: ['', '', ''], #ALT
+        0x0C: ['', '', '', ''],
+        0x41: ['1', '1', '', ''],
+        0x42: ['2', '2', chr(0x1B), chr(0x1B), 'B'],  # NUMPAD 2 and DOWN ARROW
+        0x43: ['3', '3', '', ''],
+        0x68: ['', '', '', ''],
+        0x40: ['0', '0', '', ''],
+        0x4A: [',', '', '', ''],
+        # ROW 5
+        0x0F: [' ', ' ', '', ''],  # SPACE BAR
+
+        # Custom character conversions, from ASCII char to EBCDIC code that
+        # will override the DEFAULT_CODEPAGE conversions
+        'CUSTOM_CHARACTER_CONVERSIONS': {
+        },
+    },
+
     # ENTER HERE YOUR ADDITIONAL SCANCODE MAPPINGS
 
 }
