@@ -1376,8 +1376,8 @@ def openSerial(port, speed):
         fcntl.ioctl(fd, termios.TIOCMBIS,  '\x02\x00\x00\x00' )
         fcntl.ioctl(fd, termios.TIOCMBIS,   '\x04\x00\x00\x00' )
     except OSError as e:
-        if e.errno == errno.EINVAL:
-            # This occurs if port isn't a real serial interface.
+        if e.errno in [errno.EINVAL, errno.ENOTTY]:
+            # One of these occurs if port isn't a real serial interface.
             # Ignore it so that PTYs may be used for testing purposes.
             print("Ignoring ioctl() failure for TIOCMBIS (only required for "
                   "WSL)")
