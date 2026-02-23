@@ -369,6 +369,8 @@ When displaying the converted ASCII characters in the 5250 terminal with your se
 
 This will, for example for the third entry map the `^` ASCII character to the `0x95` EBCDIC character (n) for the terminal that uses this keyboard mapping.
 
+The `txchartable` command available via the [command line interface](#command-line-interface) may be useful to view the glyphs that can be displayed by your terminal and their corresponding EBCDIC code points which may be used in the mapping above.
+
 
 
 ## Command line interface
