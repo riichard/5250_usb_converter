@@ -257,7 +257,7 @@ There is at the beginning of the script a dictionary definition called __`scanco
 * __ENHANCED_DE__ is a mapping for an enhanced (IBM model M 101-102 key) keyboard terminal
 * __122KEY_DE__ is a mapping for a German keyboard 122 key terminal
 
-Refer to this [document](ftp://ftp.www.ibm.com/systems/power/docs/systemi/v6r1/en_US/sc415605.pdf) for more information about layouts and the scancodes generated.
+Refer to [SC41-5605-00 AS/400e series __Workstation Customization Programming__ Version 4, First Edition (September 1998)](https://public.dhe.ibm.com/systems/power/docs/systemi/v6r1/en_US/sc415605.pdf) for more information about layouts and the scancodes generated.
 
 To change the default mapping used if no mapping is specified in the command line, you have to edit the value of the variable `DEFAULT_SCANCODE_DICTIONARY`
 
