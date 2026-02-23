@@ -9,10 +9,12 @@
 # set would also work.
 . ~/.bashrc
 
-# These are defined with unwanted --color=auto options:
-unalias egrep
-unalias fgrep
-unalias grep
+# These may be defined with unwanted --color=auto options:
+for alias in egrep fgrep grep ls; do
+    if [[ -v BASH_ALIASES[$alias] ]]; then
+	unalias $alias
+    fi
+done
 
 # If 5250_terminal.py is started under X, since $DISPLAY is still set,
 # running "emacs" will by default start it in the X session where
