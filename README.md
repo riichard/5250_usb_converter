@@ -248,14 +248,33 @@ The keyboard of a 5250 terminal doesn’t directly generate characters, instead 
 
 ATM I have no idea how to make a proper autodiscovery and autoconfiguration for every terminal-keyboard-language combination, so the user will need to configure this editing the 5250_terminal.py script. This is also a matter of personal preference because the older terminals have weird key legends and non-standard layouts, and the user will have to decide the key mappings that better suits his preference.
 
+There appear to be five major physical keyboard layouts supported by 5250 terminals:
+
+| Layout name(s) | Summary
+| -------------- | -------
+| (__"5250" or "5251"__) __"Typewriter"__/__"Data processing"__/__"Standard"__ | Supported by the 5251 and other early terminal models.
+| (__"5250" or "5251"__) __"Data entry"__ | Supported by the 5251 and other early terminal models.  Unlike __5250 Typewriter__, these have no separate numeric keypad, but instead share the keypad with the alphabetic keys.  There are 66, 67 and 69-key variants.
+| __"Enhanced"__ | Only supported by later terminals.  These have almost the same physical layout as a standard PC 101 or 102-key keyboard, but they have an additional key in place of the top half of the modern numeric keypad's <kbd>+</kbd> key.
+| __"122-key Typewriter"__/__"122-key Data processing"__ | Only supported by later terminals.  These notably have function keys F1 through F24 in two rows at the top of the keyboard.
+| __"122-key Data entry"__ | Only supported by later terminals.  Same physical layout as the other 122-key keyboard, but generates some different scan codes.
+
+[Further details about keyboard variants](doc/keyboards.md)
+
 There is at the beginning of the script a dictionary definition called __`scancodeDictionaries`__. That dictionary has one entry for each keyboard mapping available, you have the following mappings available:
 
-* __5250_ES__ is a mapping for a Spanish keyboard 5250 terminal
-* __5250_US__ is a mapping for an English-US keyboard 5250 terminal
-* __5250_DE__ is a mapping for a German keyboard 5250 terminal
-* __ENHANCED_ES__ is a mapping for an enhanced (IBM model M 101-102 key) keyboard terminal
-* __ENHANCED_DE__ is a mapping for an enhanced (IBM model M 101-102 key) keyboard terminal
-* __122KEY_DE__ is a mapping for a German keyboard 122 key terminal
+| Physical layout: | 5250 Typewriter | Enhanced      | 122-key Typewriter                          |
+| ---------------- | --------------- | ------------- | ------------------------------------------- |
+| German           | `5250_DE`       | `ENHANCED_DE` | `122KEY_DE`                                 |
+| Spanish          | `5250_ES`       | `ENHANCED_ES` | *missing*                                   |
+| US English       | `5250_US`       | `ENHANCED_US` | `122KEY_EN`, `122KEY_EN_CUSTOM`<sup>1</sup> |
+
+Table notes:
+* *missing* indicates that this mapping has not (yet) been written
+1. see the comments in [5250_terminal.py](5250_terminal.py) for a description of and important information about this mapping
+
+Notes on support for keyboards with no mapping shown above:
+* __Data entry__ physical layouts: While no mappings are supplied, the mappings for the __Typewriter__ physical layouts may work as the two layouts share scan codes.  However, the omission of numerous keys and changes in key labels might necessitate the creation of specific mappings for such keyboards.
+* __Katakana__ physical layout variants: All five physical layouts have Katakana variants.  It is not known whether the existing mappings can be used with these keyboards with the additional keys simply having no effect, or whether separate mappings would be required.
 
 Refer to [SC41-5605-00 AS/400e series __Workstation Customization Programming__ Version 4, First Edition (September 1998)](https://public.dhe.ibm.com/systems/power/docs/systemi/v6r1/en_US/sc415605.pdf) for more information about layouts and the scancodes generated.
 
