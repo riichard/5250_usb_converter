@@ -39,7 +39,18 @@ import tty
 import queue
 import string
 import random
+import re
 import cmd
+
+# Strip ANSI/VT100 escape sequences not supported by VT52 terminals.
+# Removes CSI (colors, ANSI cursor), OSC (title bar), and DCS sequences.
+# VT52 sequences (ESC + single letter A/B/C/D/H/I/J/K/Y/Z/=/</>)
+# are single-char after ESC and do not match these patterns.
+ANSI_STRIP_RE = re.compile(
+    r'\x1b\[[0-9;?]*[A-Za-z]'
+    r'|\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)'
+    r'|\x1bP[^\x1b]*\x1b\\'
+)
 
 # Some important default parameters
 
@@ -1270,6 +1281,8 @@ class Interceptor(object):
             # more information about the terminal is supplied via it
             # in the future.
             os.environ["TWINAXTERM"] = "y"
+            os.environ["NO_COLOR"] = "1"
+            os.environ["PS1"] = r'\u@\h:\w\$ '
 
             os.execlp(argv[0], *argv)
         else:
@@ -1383,7 +1396,8 @@ class Interceptor(object):
                 # terminal back out of alternate mode. The line below assumes
                 # that the user has returned to the command prompt.
                 self.write_master('echo "Leaving special mode."\r')
-        self.write_stdout(data.decode('utf-8', 'ignore'))
+        filtered = ANSI_STRIP_RE.sub('', data.decode('utf-8', 'ignore'))
+        self.write_stdout(filtered)
 
     def write_stdout(self, data):
         '''
@@ -1489,15 +1503,22 @@ def bps_to_termios_sym(bps):
 
 # Routine to initialize USB-serial port
 def openSerial(port, speed):
-    print("Connecting to 5250 converter USB Device at " + port)
     fd = None
-    try:
-        fd = os.open(port, os.O_RDWR | os.O_NOCTTY | os.O_NDELAY)
-    except FileNotFoundError:
-        print("The 5250 converter USB Device was not found at " + port +
-              ". Run the application with -t DEVICE to use a different one")
-        os.kill(os.getpid(), signal.SIGKILL)
-        sys.exit()
+    while fd is None:
+        if not os.path.exists(port):
+            print("[5250] USB device not found at " + port +
+                  ". Is the Teensy/5250 converter connected via USB? " +
+                  "Waiting 10s before retry... (use -t DEVICE to specify a different port)")
+            time.sleep(10)
+            continue
+        print("[5250] Connecting to 5250 converter USB device at " + port)
+        try:
+            fd = os.open(port, os.O_RDWR | os.O_NOCTTY | os.O_NDELAY)
+        except OSError as e:
+            print("[5250] Failed to open " + port + ": " + str(e) +
+                  ". Retrying in 10s...")
+            fd = None
+            time.sleep(10)
 
     attrs = termios.tcgetattr(fd)
     bps_sym = bps_to_termios_sym(speed)

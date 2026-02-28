@@ -242,6 +242,57 @@ Passing `--login /usr/bin/login` causes login prompts to appear for every incomi
     sudo daemon --name="5250" -- /usr/bin/python3  ~/github/5250_usb_converter/5250_terminal.py -p -d -l /usr/bin/login
 
 
+## Running as a systemd service
+
+The `systemd/` directory contains a service unit and an install script for running
+the converter automatically on system startup (tested on Raspberry Pi OS).
+
+### Quick install
+
+```bash
+sudo SERVICE_USER=pi bash systemd/install.sh
+```
+
+This will:
+- Copy `ibm5250.service` to `/lib/systemd/system/`
+- Enable and start the service
+- Create `/etc/sudoers.d/ibm5250` so the service user can run
+  `sudo systemctl start/stop/restart/status ibm5250.service` without a password
+
+### Service behaviour
+
+- **Waits for the USB device** — if the Teensy converter is not plugged in when
+  the service starts, it will log a message every 10 seconds and connect
+  automatically once the device appears.
+- **Restarts on failure** — `Restart=always` with `StartLimitIntervalSec=0`
+  means systemd will always restart the service, with a 5-second delay between
+  attempts.
+- **Takes over tty1** — the service uses `StandardInput=tty-force` and conflicts
+  with `getty@tty1.service` so it can drive the IBM terminal directly from the
+  Linux console.
+
+### Useful commands
+
+```bash
+# Follow live logs (including USB device wait messages)
+journalctl -u ibm5250.service -f
+
+# Restart the service (no sudo password needed after install)
+sudo systemctl restart ibm5250.service
+
+# Check status
+sudo systemctl status ibm5250.service
+```
+
+### Troubleshooting
+
+| Symptom | Likely cause |
+|---------|--------------|
+| `[5250] USB device not found` repeated every 10s | Teensy USB cable not connected |
+| Service connects but terminal shows nothing | Twinax cable in wrong port, or terminal powered off |
+| Gibberish / color codes on screen | Fixed in current version via ANSI sequence stripping |
+| Service stops and never restarts | Check `StartLimitIntervalSec=0` is in the `[Unit]` section |
+
 ## Keyboard scancode mappings configuration
 
 The keyboard of a 5250 terminal doesn’t directly generate characters, instead a “scancode” is sent back to the host for every key pressed. Those scancodes need to be converted to characters for the tty shell. Unfortunately there are a wide variety of possible combinations across the 5250 terminal range (5251, 5291, 3196, etc) with different key counts (83 keys, 101 keys, 122 keys, etc) and many different languages.

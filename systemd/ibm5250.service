@@ -1,0 +1,26 @@
+[Unit]
+Description=IBM 5250 Terminal Service
+After=multi-user.target
+# Taking over tty1 conflicts with the default getty login prompt
+Conflicts=getty@tty1.service
+# Allow unlimited restarts so the service stays alive when the USB device
+# is not yet connected
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/dev/5250_usb_converter
+ExecStart=/usr/bin/python3 -u 5250_terminal.py
+# Force unbuffered output so log messages appear in journalctl immediately
+Environment=PYTHONUNBUFFERED=1
+# The script needs a real TTY for the terminal emulation
+StandardInput=tty-force
+StandardOutput=journal
+StandardError=journal
+Restart=always
+# Wait 5s between restarts to avoid hammering on failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
