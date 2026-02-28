@@ -700,6 +700,149 @@ scancodeDictionaries = {
         },
     },
 
+    # NOTES:
+    # - not tested with real hardware
+    # - unlike other mappings, Alt generates an escape prefix instead
+    #   of behaving like an AltGr key
+    'ENHANCED_US': {
+
+        # ESC AND FUNCTION BLOCK KEYS MAPPINGS
+        # KEYS FROM LEFT TO RIGHT
+        'CTRL_PRESS': [0x14],   # CapsLock
+        'CTRL_RELEASE': [0x94], # CapsLock
+        'ALT_PRESS': [0x19, 0x39],   # Left/Right Alt
+        'ALT_RELEASE': [0x99, 0xB9], # Left/Right Alt
+        'SHIFT_PRESS': [0x12, 0x59],   # Left/Right Shift
+        'SHIFT_RELEASE': [0x92, 0xD9], # Left/Right Shift
+        'CAPS_LOCK': [0x11], # Reset
+        'EXTRA': [],
+        0x08: [chr(0x1B), chr(0x1B), '', ''],  # handle Attn as Esc
+
+        # The escape sequences in position 0 correspond to the "xterm"
+        # terminfo entry's key_f1 through key_f12.
+        0x07: [chr(0x1B) + 'OP', '', '', ''], #F1
+        0x0F: [chr(0x1B) + 'OQ', '', '', ''], #F2
+        0x17: [chr(0x1B) + 'OR', '', '', ''], #F3
+        0x1F: [chr(0x1B) + 'OS', '', '', ''], #F4
+        0x27: [chr(0x1B) + '[15~', '', '', ''], #F5
+        0x2F: [chr(0x1B) + '[17~', '', '', ''], #F6
+        0x37: [chr(0x1B) + '[18~', '', '', ''], #F7
+        0x3F: [chr(0x1B) + '[19~', '', '', ''], #F8
+        0x47: [chr(0x1B) + '[20~', '', '', ''], #F9
+        0x4F: [chr(0x1B) + '[21~', '', '', ''], #F10
+        0x56: [chr(0x1B) + '[23~', '', '', ''], #F11
+        0x5E: [chr(0x1B) + '[24~', '', '', ''], #F12
+
+        # MAIN ALPHA BLOCK KEYS MAPPINGS
+        # KEYS FROM TOP TO BOTTOM AND FROM LEFT TO RIGHT
+        # ROW 1
+        0x0E: ['`', '~', '', ''],
+        0x16: ['1', '!', chr(0x1B) + '1', ''],
+        0x1E: ['2', '@', chr(0x1B) + '2', ''],
+        0x26: ['3', '#', chr(0x1B) + '3', ''],
+        0x25: ['4', '$', chr(0x1B) + '4', ''],
+        0x2E: ['5', '%', chr(0x1B) + '5', ''],
+        0x36: ['6', '^', chr(0x1B) + '6', chr(0x1E)],
+        0x3D: ['7', '&', chr(0x1B) + '7', ''],
+        0x3E: ['8', '*', chr(0x1B) + '8', ''],
+        0x46: ['9', '(', chr(0x1B) + '9', ''],
+        0x45: ['0', ')', chr(0x1B) + '0', ''],
+        0x4E: ['-', '_', chr(0x1B) + '-', chr(0x1F)],
+        0x55: ['=', '+', chr(0x1B) + '=', ''],
+        0x66: [chr(0x08), chr(0x08), '', ''],  # BS
+        # ROW 2
+        0x0D: [chr(0x09), chr(0x09), '', ''],  # TAB
+        0x15: ['q', 'Q', chr(0x1B) + 'q', chr(0x11)],
+        0x1D: ['w', 'W', chr(0x1B) + 'w', chr(0x17)],
+        0x24: ['e', 'E', chr(0x1B) + 'e', chr(0x05)],
+        0x2D: ['r', 'R', chr(0x1B) + 'r', chr(0x12)],
+        0x2C: ['t', 'T', chr(0x1B) + 't', chr(0x14)],
+        0x35: ['y', 'Y', chr(0x1B) + 'y', chr(0x19)],
+        0x3C: ['u', 'U', chr(0x1B) + 'u', chr(0x15)],
+        0x43: ['i', 'I', chr(0x1B) + 'i', chr(0x09)],
+        0x44: ['o', 'O', chr(0x1B) + 'o', chr(0x0F)],
+        0x4D: ['p', 'P', chr(0x1B) + 'p', chr(0x10)],
+        0x54: ['[', '{', chr(0x1B) + '[', chr(0x1B)],
+        0x5B: [']', '}', chr(0x1B) + ']', chr(0x1D)],
+        0x5C: ['\\', '|',  chr(0x1B) + '\\', chr(0x1C)],
+        # ROW 3
+        0x1C: ['a', 'A', chr(0x1B) + 'a', chr(0x01)],
+        0x1B: ['s', 'S', chr(0x1B) + 's', chr(0x13)],
+        0x23: ['d', 'D', chr(0x1B) + 'd', chr(0x04)],
+        0x2B: ['f', 'F', chr(0x1B) + 'f', chr(0x06)],
+        0x34: ['g', 'G', chr(0x1B) + 'g', chr(0x07)],
+        0x33: ['h', 'H', chr(0x1B) + 'h', chr(0x08)],
+        0x3B: ['j', 'J', chr(0x1B) + 'j', chr(0x0A)],
+        0x42: ['k', 'K', chr(0x1B) + 'k', chr(0x0B)],
+        0x4B: ['l', 'L', chr(0x1B) + 'l', chr(0x0C)],
+        0x4C: [';', ':', chr(0x1B) + ';', ''],
+        0x52: ['\'', '"', chr(0x1B) + '\'', ''],
+        0x5A: [chr(0x0D), chr(0x0D), chr(0x1B) + chr(0x0D), ''],  # ENTER
+        # ROW 4
+        0x1A: ['z', 'Z', chr(0x1B) + 'z', chr(0x1A)],
+        0x22: ['x', 'X', chr(0x1B) + 'x', chr(0x18)],
+        0x21: ['c', 'C', chr(0x1B) + 'c', chr(0x03)],
+        0x2A: ['v', 'V', chr(0x1B) + 'v', chr(0x16)],
+        0x32: ['b', 'B', chr(0x1B) + 'b', chr(0x02)],
+        0x31: ['n', 'N', chr(0x1B) + 'n', chr(0x0E)],
+        0x3A: ['m', 'M', chr(0x1B) + 'm', chr(0x0D)],
+        0x41: [',', '<', chr(0x1B) + ',', ''],
+        0x49: ['.', '>', chr(0x1B) + '.', ''],
+        0x4A: ['/', '?', chr(0x1B) + '/', chr(0x1F)],
+        # ROW 5
+        0x29: [' ', ' ', '', ''],  # SPACE BAR
+        # Enter key not used
+
+        # TEXT EDIT MODE KEYS BLOCK MAPPINGS
+        # KEYS FROM TOP TO BOTTOM AND FROM LEFT TO RIGHT
+        # TBD
+
+        # ARROW KEYS BLOCK MAPPINGS
+        # KEYS FROM TOP TO BOTTOM AND FROM LEFT TO RIGHT
+        0x63: [chr(0x1B), chr(0x1B), chr(0x1B), '', 'A'],  # UP ARROW
+        0x61: [chr(0x1B), chr(0x1B), chr(0x1B), '', 'D'],  # LEFT ARROW
+        0x60: [chr(0x1B), chr(0x1B), chr(0x1B), '', 'B'],  # DOWN ARROW
+        0x6A: [chr(0x1B), chr(0x1B), chr(0x1B), '', 'C'],  # RIGHT ARROW
+
+        # NUMPAD KEYS BLOCK MAPPINGS
+        # KEYS FROM TOP TO BOTTOM AND FROM LEFT TO RIGHT
+        # ROW 1
+        # 0x76 is blank and is in the position of Num Lock on a 101
+        # key keyboard, so do nothing with it
+        0x77: ['/', '/', '', ''],
+        0x7E: ['*', '*', '', ''],
+        0x7F: ['-', '-', '', ''],
+        # ROW 2
+        0x6C: ['7', '7', '', ''],
+        # NUMPAD 8  EXTRA UP ARROW
+        0x75: ['8', '8', chr(0x1B), chr(0x1B), 'A'],
+        0x7D: ['9', '9', '', ''],
+        # 0x7C doesn't correspond to a key location on a 101 key
+        # keyboard, and is another tab key on the enhanced keyboard,
+        # so do nothing with it
+        # ROW 3
+        # NUMPAD 4   EXTRA LEFT ARROW
+        0x6b: ['4', '4', chr(0x1B), chr(0x1B), 'D'],
+        0x73: ['5', '5', '', ''],
+        # NUMPAD 6 EXTRA RIGHT ARROW
+        0x74: ['6', '6', chr(0x1B), chr(0x1B), 'C'],
+        0x7B: ['+', '+', '', ''],
+        # ROW 4
+        0x69: ['1', '1', '', ''],
+        # NUMPAD 2  EXTRA DOWN ARROW
+        0x72: ['2', '2', chr(0x1B), chr(0x1B), 'B'],
+        0x7A: ['3', '3', '', ''],
+        0x79: [chr(0x0D), '', '', ''],  # ENTER,
+        # ROW 5
+        0x70: ['0', '0', '', ''],
+        0x71: ['.', '', '', ''],
+
+        # Custom character conversions, from ASCII char to EBCDIC code that
+        # will override the DEFAULT_CODEPAGE conversions
+        'CUSTOM_CHARACTER_CONVERSIONS': {
+        },
+    },
+
     '122KEY_DE': {
 
         # SPECIAL FUNCTION KEYS MAPPINGS
@@ -1376,8 +1519,8 @@ def openSerial(port, speed):
         fcntl.ioctl(fd, termios.TIOCMBIS,  '\x02\x00\x00\x00' )
         fcntl.ioctl(fd, termios.TIOCMBIS,   '\x04\x00\x00\x00' )
     except OSError as e:
-        if e.errno == errno.EINVAL:
-            # This occurs if port isn't a real serial interface.
+        if e.errno in [errno.EINVAL, errno.ENOTTY]:
+            # One of these occurs if port isn't a real serial interface.
             # Ignore it so that PTYs may be used for testing purposes.
             print("Ignoring ioctl() failure for TIOCMBIS (only required for "
                   "WSL)")
