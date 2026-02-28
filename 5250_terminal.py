@@ -27,6 +27,7 @@ import array
 import code
 import errno
 import fcntl
+import glob
 import os
 import pty
 import select
@@ -1560,9 +1561,13 @@ def openSerial(port, speed):
     fd = None
     while fd is None:
         if not os.path.exists(port):
-            print("[5250] USB device not found at " + port +
-                  ". Is the Teensy/5250 converter connected via USB? " +
-                  "Waiting 10s before retry... (use -t DEVICE to specify a different port)")
+            candidates = sorted(
+                glob.glob('/dev/ttyACM*') + glob.glob('/dev/ttyUSB*'))
+            hint = (f"Available serial devices: {candidates}" if candidates
+                    else "No /dev/ttyACM* or /dev/ttyUSB* devices found. "
+                         "Is the Teensy connected? (expected USB ID 16c0:0483)")
+            print(f"[5250] USB device not found at {port}. {hint}. "
+                  f"Waiting 10s before retry... (use -t DEVICE to specify a different port)")
             time.sleep(10)
             continue
         print("[5250] Connecting to 5250 converter USB device at " + port)
@@ -3941,9 +3946,15 @@ def parseArgs():
 
     args = parser.parse_args()
 
-    if not os.access(args.login, os.X_OK):
-        parser.error(f"The login/shell {args.login} does not exist or is not "
-                     f"executable")
+    login_abs = os.path.abspath(args.login)
+    if not os.path.exists(login_abs):
+        parser.error(
+            f"Login script not found: {login_abs}\n"
+            f"  Hint: ensure etc/twinax_login_default exists in the working directory.")
+    elif not os.access(login_abs, os.X_OK):
+        parser.error(
+            f"Login script is not executable: {login_abs}\n"
+            f"  Fix: chmod +x {login_abs}")
 
     return args
 
@@ -3983,6 +3994,8 @@ if __name__ == '__main__':
         clickerEnabled = False
 
     print(f"Using tty device at: {args.ttyfile}\n")
+    print(f"[5250] Login script : {os.path.abspath(args.login)}")
+    print(f"[5250] Mode         : {'daemon' if args.daemon else 'interactive'}")
     ttyfile = args.ttyfile
 
     login_command = args.login

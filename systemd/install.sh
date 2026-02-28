@@ -36,6 +36,9 @@ ${SERVICE_USER} ALL=(ALL) NOPASSWD: /bin/systemctl stop ${SERVICE_FILE}
 ${SERVICE_USER} ALL=(ALL) NOPASSWD: /bin/systemctl restart ${SERVICE_FILE}
 ${SERVICE_USER} ALL=(ALL) NOPASSWD: /bin/systemctl status ${SERVICE_FILE}
 ${SERVICE_USER} ALL=(ALL) NOPASSWD: /bin/systemctl daemon-reload
+${SERVICE_USER} ALL=(ALL) NOPASSWD: /usr/bin/journalctl -u ${SERVICE_FILE}
+${SERVICE_USER} ALL=(ALL) NOPASSWD: /usr/bin/journalctl -u ${SERVICE_FILE} -f
+${SERVICE_USER} ALL=(ALL) NOPASSWD: /usr/bin/journalctl -u ${SERVICE_FILE} -n *
 EOF
 chmod 440 "${SUDOERS_FILE}"
 visudo -c -f "${SUDOERS_FILE}"
