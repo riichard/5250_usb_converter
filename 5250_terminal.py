@@ -104,7 +104,7 @@ UNICODE_FALLBACK = str.maketrans({
 
 # Configure the defaulf dictionary to use if nothing is specified in the
 # command line, from those defined in scancodeDictionaries
-DEFAULT_SCANCODE_DICTIONARY = '5250_ES'
+DEFAULT_SCANCODE_DICTIONARY = '5250_DVORAK'
 
 # Configure the defaulf station address if nothing is specified in the
 # command line
@@ -377,6 +377,121 @@ scancodeDictionaries = {
         # Custom character conversions, from ASCII char to EBCDIC code that
         # will override the DEFAULT_CODEPAGE conversions
         'CUSTOM_CHARACTER_CONVERSIONS': {
+        },
+    },
+
+    '5250_DVORAK': {
+
+        # SPECIAL KEYS MAPPINGS
+        # CapsLock (0x7E) added to CTRL_PRESS so it acts as sticky Ctrl.
+        # CTRL_RELEASE is empty: sticky/toggle mode (auto-clears after one key).
+        'CTRL_PRESS':    [0x54, 0x7E],
+        'CTRL_RELEASE':  [],
+        'ALT_PRESS':     [0x68],
+        'ALT_RELEASE':   [],
+        'SHIFT_PRESS':   [0x57, 0x56],
+        'SHIFT_RELEASE': [0xD7, 0xD6],
+        'CAPS_LOCK':     [],   # removed – CapsLock is now Ctrl
+        'EXTRA':         [],
+
+        # FUNCTION BLOCK KEYS
+        0x7C: [chr(0x1B), chr(0x1B), '', ''],  # F1 as ESC
+        0x6F: [chr(0x1B), chr(0x1B), '', ''],  # F2 as ESC
+        0x6C: ['', '', '', ''],  # F3
+        0x6D: ['', '', '', ''],  # F4
+        0x6E: ['', '', '', ''],  # F5
+        0x7D: ['', '', '', ''],  # F6
+        0x71: ['', '', '', ''],  # F7
+        0x70: ['', '', '', ''],  # F8
+        0x72: ['', '', '', ''],  # F9
+        0x73: ['', '', '', ''],  # F10
+
+        # ROW 1 — Number row (Programmer Dvorak)
+        0x3E: [chr(0x1B), '$', '', ''],  # ESC unshifted / $ shifted (backtick key)
+        0x31: ['&', '%', '', ''],   # 1
+        0x32: ['[', '7', '', ''],   # 2
+        0x33: ['{', '5', '', ''],   # 3
+        0x34: ['(', '3', '', ''],   # 4
+        0x35: ['=', '1', '', ''],   # 5
+        0x36: ['*', '9', '', ''],   # 6
+        0x37: [')', '0', '', ''],   # 7
+        0x38: ['+', '2', '', ''],   # 8
+        0x39: [']', '4', '', ''],   # 9
+        0x3A: ['!', '6', '', ''],   # 0
+        0x3B: ['#', '8', '', chr(0x1C)],  # - key (standard Prog. Dvorak)
+        0x3C: ['`', '~', '', ''],   # = key
+        0x3D: [chr(0x08), chr(0x08), '', ''],  # Backspace
+        0x4B: ['', '', '', ''],
+        0x4C: ['', '', '', ''],  # DUP
+
+        # ROW 2 — QWERTY positions → Dvorak characters
+        0x20: [chr(0x09), chr(0x09), '', ''],  # Tab
+        0x21: ["'", '"',  '', chr(0x11)],  # q → '
+        0x22: [',', '<',  '', chr(0x17)],  # w → ,
+        0x23: ['.', '>',  '', chr(0x05)],  # e → .
+        0x24: ['p', 'P',  '', chr(0x10)],  # r → p
+        0x25: ['y', 'Y',  '', chr(0x19)],  # t → y
+        0x26: ['f', 'F',  '', chr(0x06)],  # y → f
+        0x27: ['g', 'G',  '', chr(0x07)],  # u → g
+        0x28: ['c', 'C',  '', chr(0x03)],  # i → c
+        0x29: ['r', 'R',  '', chr(0x12)],  # o → r
+        0x2A: ['l', 'L',  '', chr(0x0C)],  # p → l
+        0x2B: ['/', '?',  '', chr(0x1B)],  # [ → /
+        0x2C: ['=', '+',  '', chr(0x1D)],  # ] → =
+        0x2D: [chr(0x0D), chr(0x0D), '', ''],  # Enter
+        0x47: ['7', '7', '', ''],
+        0x48: ['8', '8', chr(0x1B), chr(0x1B), 'A'],  # Alt+8 = Up
+        0x49: ['9', '9', '', ''],
+        0x4E: ['', '', '', ''],  # CAMPO-
+
+        # ROW 3 — ASDF positions → Dvorak characters
+        0x11: ['a', 'A', '', chr(0x01)],  # a → a
+        0x12: ['o', 'O', '', chr(0x0F)],  # s → o
+        0x13: ['e', 'E', '', chr(0x05)],  # d → e
+        0x14: ['u', 'U', '', chr(0x15)],  # f → u
+        0x15: ['i', 'I', '', chr(0x09)],  # g → i
+        0x16: ['d', 'D', '', chr(0x04)],  # h → d
+        0x17: ['h', 'H', '', chr(0x08)],  # j → h
+        0x18: ['t', 'T', '', chr(0x14)],  # k → t
+        0x19: ['n', 'N', '', chr(0x0E)],  # l → n
+        0x1A: ['s', 'S', '', chr(0x13)],  # ; → s
+        0x1B: ['-', '_', '', chr(0x1B)],  # ' → -
+        0x1C: ['\\', '|', '', chr(0x1D)],  # \ → \
+        0x44: ['4', '4', chr(0x1B), chr(0x1B), 'D'],  # Alt+4 = Left
+        0x45: ['5', '5', '', ''],
+        0x46: ['6', '6', chr(0x1B), chr(0x1B), 'C'],  # Alt+6 = Right
+        0x4D: [chr(0x0D), '', '', ''],  # Numpad Enter
+
+        # ROW 4 — ZXCV positions → Dvorak characters
+        0x0E: ['<', '>', '|', ''],
+        0x01: [';', ':',  '', chr(0x1A)],  # z → ;
+        0x02: ['q', 'Q',  '', chr(0x11)],  # x → q
+        0x03: ['j', 'J',  '', chr(0x0A)],  # c → j
+        0x04: ['k', 'K',  '', chr(0x0B)],  # v → k
+        0x05: ['x', 'X',  '', chr(0x18)],  # b → x
+        0x06: ['b', 'B',  '', chr(0x02)],  # n → b
+        0x07: ['m', 'M',  '', chr(0x0D)],  # m → m
+        0x08: ['w', 'W',  '', chr(0x17)],  # , → w
+        0x09: ['v', 'V',  '', chr(0x16)],  # . → v
+        0x0A: ['z', 'Z',  '', chr(0x1A)],  # / → z
+        0x0C: ['', '', '', ''],
+        0x68: ['', '', '', ''],
+        0x41: ['1', '1', '', ''],
+        0x42: ['2', '2', chr(0x1B), chr(0x1B), 'B'],  # Alt+2 = Down
+        0x43: ['3', '3', '', ''],
+        0x40: ['0', '0', '', ''],
+        0x4A: [',', '', '', ''],
+
+        # ROW 5
+        0x0F: [' ', ' ', '', ''],  # Space
+
+        # Custom character conversions — same as 5250_ES (IBM 5251 German ROM)
+        'CUSTOM_CHARACTER_CONVERSIONS': {
+            '{': 0xC0,  # cp037 byte; IBM 5251 German shows { here
+            '}': 0xD0,  # cp037 byte; IBM 5251 German shows } here
+            '@': 0x7C,  # cp037 byte; IBM 5251 German shows @ here
+            '^': 0x95,  # 5250 extended charset position for ^
+            '#': 0xBC,  # confirmed working
         },
     },
 

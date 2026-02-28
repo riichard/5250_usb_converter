@@ -44,6 +44,9 @@ chmod 440 "${SUDOERS_FILE}"
 visudo -c -f "${SUDOERS_FILE}"
 echo "==> Created ${SUDOERS_FILE} (passwordless systemctl for ${SERVICE_USER})"
 
+install -m 755 "${REPO_DIR}/etc/kbdhelp" /usr/local/bin/kbdhelp
+echo "==> Installed kbdhelp to /usr/local/bin/"
+
 systemctl daemon-reload
 systemctl enable "${SERVICE_FILE}"
 systemctl start "${SERVICE_FILE}"

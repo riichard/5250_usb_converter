@@ -1,0 +1,29 @@
+#!/bin/sh
+cat <<'EOF'
+IBM 5251 Dvorak Layout  (5250_DVORAK)
+======================================
+
+NUMBER ROW  unshifted: ESC  &  [  {  (  =  *  )  +  ]  !  #  `
+              shifted:   $  %  7  5  3  1  9  0  2  4  6  8  ~
+
+ALPHA (Dvorak positions)
+  Row2: '  ,  .  p  y  f  g  c  r  l  /  =
+  Row3: a  o  e  u  i  d  h  t  n  s  -
+  Row4: ;  q  j  k  x  b  m  w  v  z
+
+MODIFIERS
+  CapsLock = sticky Ctrl: press CapsLock, then one key -> Ctrl+key
+  Alt      = one-shot (press Alt then key)
+  Shift    = hold (two shift keys, both sides)
+
+NUMPAD ARROWS (press Alt first, then numpad key)
+  Alt+8 = Up   Alt+4 = Left   Alt+6 = Right   Alt+2 = Down
+
+LEFT-CLUSTER ARROWS  Up/Down/Left/Right (when discovered & mapped)
+
+SPECIAL KEYS
+  ESC    = leftmost key above Tab  (was backtick)
+  F1/F2  = ESC as well
+  Ctrl+C = CapsLock then c     Ctrl+Z = CapsLock then z
+  Tab    = Tab key              Backspace = Backspace key
+EOF
