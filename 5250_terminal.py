@@ -1334,6 +1334,7 @@ class Interceptor(object):
             os.environ["NO_COLOR"] = "1"
             os.environ["PS1"] = r'\W\$ '  # short: just current dir name
             os.environ["NCURSES_NO_UTF8_ACS"] = "1"  # force ncurses to use ASCII box-drawing
+            argv = [os.path.abspath(argv[0])] + list(argv[1:])  # resolve before chdir
             os.chdir(os.path.expanduser("~"))  # start in home directory
 
             os.execlp(argv[0], *argv)
