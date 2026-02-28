@@ -83,18 +83,53 @@ shell PTY output
 ```python
 TWINAXTERM=y           # hint for scripts that they're on a 5250 terminal
 NO_COLOR=1             # suppress ANSI color output from programs
-PS1='\u@\h:\w\$ '      # clean prompt (no color codes)
+PS1='\W\$ '            # short prompt – current directory name only
 NCURSES_NO_UTF8_ACS=1  # force ncurses apps (htop etc.) to use ASCII box-drawing
 ```
 
-## Common workflows
+## THE GOLDEN RULE — always save to the repo first
 
-### Deploy code changes to Pi
+**If the Pi crashes, gets wiped, or is replaced, the repo is the only recovery
+path. Every working change MUST be committed here before considering the work
+done. Do not leave config only on the Pi.**
+
+The Pi's `/home/pi/dev/5250_usb_converter/5250_terminal.py` must always be
+identical to the committed `5250_terminal.py` in this repo. The Pi has no
+independent git history — it is a deployed copy, not a development fork.
+
+Also needed on the Pi (must match the repo):
+- `5250_terminal.py` — main script
+- `etc/` — login helper scripts required by the newer script version
+- `/lib/systemd/system/ibm5250.service` — installed via `systemd/install.sh`
+- `/etc/sudoers.d/ibm5250` — created by `systemd/install.sh`
+
+### Workflow: make a change
+
+1. Edit files in this local repo (`/Users/richard/dev/5250_usb_converter/`)
+2. Test the logic or patch on the Pi if needed
+3. **Commit** with `git commit`
+4. Deploy to Pi:
+   ```bash
+   scp 5250_terminal.py pdp11:/home/pi/dev/5250_usb_converter/
+   ssh pdp11 "sudo systemctl restart ibm5250.service"
+   ```
+5. Verify the service is still `active (running)`:
+   ```bash
+   ssh pdp11 "sudo systemctl status ibm5250.service --no-pager"
+   ```
+
+### Recovery: Pi wiped or replaced
+
 ```bash
-# From local repo – sync changed files:
-scp 5250_terminal.py pdp11:/home/pi/dev/5250_usb_converter/
-ssh pdp11 "sudo systemctl restart ibm5250.service"
+# On the new Pi (as root or with sudo):
+cd /home/pi/dev
+git clone https://github.com/riichard/5250_usb_converter.git
+cd 5250_usb_converter
+sudo SERVICE_USER=pi bash systemd/install.sh
 ```
+
+That's it — `install.sh` copies the service file, enables it, starts it, and
+sets up the passwordless sudoers entry. See `doc/deploy.md` for full details.
 
 ### Full fresh install on a new Pi
 See `doc/deploy.md`.
