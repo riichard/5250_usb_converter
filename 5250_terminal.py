@@ -58,10 +58,10 @@ SLOW_POLL_MICROSECONDS = 5000
 ULTRA_SLOW_POLL_MICROSECONDS = 1000000
 
 # Keyboard clicker enabled or not by default
-DEFAULT_KEYBOARD_CLICKER_ENABLED = True
+DEFAULT_KEYBOARD_CLICKER_ENABLED = False
 
 # Default EBCDIC codepage for character translations
-DEFAULT_CODEPAGE = 'cp037'
+DEFAULT_CODEPAGE = 'cp273' # 'cp037'
 
 # Default state for advanced features
 DEFAULT_FEATURES = False
