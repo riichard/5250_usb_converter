@@ -52,6 +52,53 @@ ANSI_STRIP_RE = re.compile(
     r'|\x1bP[^\x1b]*\x1b\\'
 )
 
+# Unicode-to-ASCII fallback for characters outside the IBM 5251 character set.
+# Converts box-drawing, block elements, arrows, and typographic chars to
+# plain ASCII look-alikes so programs like htop render legibly on the terminal.
+UNICODE_FALLBACK = str.maketrans({
+    # Box-drawing – horizontal
+    '─': '-', '━': '-', '╌': '-', '┄': '-', '┈': '-',
+    # Box-drawing – vertical
+    '│': '|', '┃': '|', '╎': '|', '┆': '|', '┊': '|',
+    # Box-drawing – corners and junctions
+    '┌': '+', '┍': '+', '┎': '+', '┏': '+',
+    '┐': '+', '┑': '+', '┒': '+', '┓': '+',
+    '└': '+', '┕': '+', '┖': '+', '┗': '+',
+    '┘': '+', '┙': '+', '┚': '+', '┛': '+',
+    '├': '+', '┝': '+', '┠': '+', '┣': '+',
+    '┤': '+', '┥': '+', '┨': '+', '┫': '+',
+    '┬': '+', '┯': '+', '┰': '+', '┳': '+',
+    '┴': '+', '┷': '+', '┸': '+', '┻': '+',
+    '┼': '+', '┿': '+', '╂': '+', '╋': '+',
+    # Double-line box drawing
+    '═': '=', '║': '|',
+    '╔': '+', '╗': '+', '╚': '+', '╝': '+',
+    '╠': '+', '╣': '+', '╦': '+', '╩': '+', '╬': '+',
+    '╒': '+', '╓': '+', '╕': '+', '╖': '+',
+    '╘': '+', '╙': '+', '╛': '+', '╜': '+',
+    '╞': '+', '╟': '+', '╡': '+', '╢': '+',
+    '╤': '+', '╥': '+', '╧': '+', '╨': '+', '╪': '+', '╫': '+',
+    # Block elements (progress bars etc.)
+    '█': '#', '▉': '#', '▊': '#', '▋': '#', '▌': '#',
+    '▍': '#', '▎': '#', '▏': '#', '▐': '#',
+    '▀': '#', '▄': '#',
+    '▓': '#', '▒': ':', '░': '.',
+    # Geometric shapes and pointers used in htop/ncurses
+    '▲': '^', '▼': 'v', '◄': '<', '►': '>',
+    '▸': '>', '◂': '<', '▴': '^', '▾': 'v',
+    '◆': '*', '◇': '*', '■': '#', '□': '#',
+    # Arrows
+    '←': '<', '→': '>', '↑': '^', '↓': 'v',
+    '⇐': '<', '⇒': '>', '⇑': '^', '⇓': 'v',
+    # Typographic
+    '·': '.', '•': '*', '…': '.', '°': 'o',
+    '\u2013': '-', '\u2014': '-',   # en/em dash
+    '\u2018': "'", '\u2019': "'",   # curly single quotes
+    '\u201c': '"', '\u201d': '"',   # curly double quotes
+    '\u00b7': '.', '\u2022': '*',   # middle dot, bullet
+    '\u00d7': 'x', '\u00f7': '/',  # × ÷
+})
+
 # Some important default parameters
 
 # Configure the defaulf dictionary to use if nothing is specified in the
@@ -205,10 +252,13 @@ scancodeDictionaries = {
         # Custom character conversions, from ASCII char to EBCDIC code that
         # will override the DEFAULT_CODEPAGE conversions
         'CUSTOM_CHARACTER_CONVERSIONS': {
-            '[': 0x4A,
-            ']': 0x5A,
-            '^': 0x95,
-            '#': 0xBC
+            '{': 0xC0,  # cp037 byte; IBM 5251 German shows { at this position
+            '}': 0xD0,  # cp037 byte; IBM 5251 German shows } at this position
+            '@': 0x7C,  # cp037 byte; IBM 5251 German shows @ at this position
+            '^': 0x95,  # 5250 extended charset position for ^
+            '#': 0xBC,  # confirmed working
+            # '[' removed: cp273 naturally encodes [ as 0x63 (German NRC position)
+            # ']' removed: cp273 naturally encodes ] as 0xFC (German NRC position)
         },
     },
 
@@ -1283,6 +1333,7 @@ class Interceptor(object):
             os.environ["TWINAXTERM"] = "y"
             os.environ["NO_COLOR"] = "1"
             os.environ["PS1"] = r'\u@\h:\w\$ '
+            os.environ["NCURSES_NO_UTF8_ACS"] = "1"  # force ncurses to use ASCII box-drawing
 
             os.execlp(argv[0], *argv)
         else:
@@ -1397,6 +1448,7 @@ class Interceptor(object):
                 # that the user has returned to the command prompt.
                 self.write_master('echo "Leaving special mode."\r')
         filtered = ANSI_STRIP_RE.sub('', data.decode('utf-8', 'ignore'))
+        filtered = filtered.translate(UNICODE_FALLBACK)
         self.write_stdout(filtered)
 
     def write_stdout(self, data):
