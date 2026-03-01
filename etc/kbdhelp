@@ -7,9 +7,9 @@ NUMBER ROW  unshifted: ESC  &  [  {  (  =  *  )  +  ]  !  #  `
               shifted:   $  %  7  5  3  1  9  0  2  4  6  8  ~
 
 ALPHA (Dvorak positions)
-  Row2: '  ,  .  p  y  f  g  c  r  l  /  =
+  Row2: ;  ,  .  p  y  f  g  c  r  l  /  =
   Row3: a  o  e  u  i  d  h  t  n  s  -
-  Row4: ;  q  j  k  x  b  m  w  v  z
+  Row4: '  q  j  k  x  b  m  w  v  z
 
 MODIFIERS
   CapsLock = sticky Ctrl: press CapsLock, then one key -> Ctrl+key

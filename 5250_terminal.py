@@ -426,7 +426,7 @@ scancodeDictionaries = {
 
         # ROW 2 — QWERTY positions → Dvorak characters
         0x20: [chr(0x09), chr(0x09), '', ''],  # Tab
-        0x21: ["'", '"',  '', chr(0x11)],  # q → '
+        0x21: [';', ':',  '', chr(0x11)],  # q → ; (user preference)
         0x22: [',', '<',  '', chr(0x17)],  # w → ,
         0x23: ['.', '>',  '', chr(0x05)],  # e → .
         0x24: ['p', 'P',  '', chr(0x10)],  # r → p
@@ -464,7 +464,7 @@ scancodeDictionaries = {
 
         # ROW 4 — ZXCV positions → Dvorak characters
         0x0E: ['<', '>', '|', ''],
-        0x01: [';', ':',  '', chr(0x1A)],  # z → ;
+        0x01: ["'", '"',  '', chr(0x1A)],  # z → ' (user preference)
         0x02: ['q', 'Q',  '', chr(0x11)],  # x → q
         0x03: ['j', 'J',  '', chr(0x0A)],  # c → j
         0x04: ['k', 'K',  '', chr(0x0B)],  # v → k
