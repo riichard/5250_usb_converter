@@ -401,10 +401,13 @@ scancodeDictionaries = {
         0x6D: ['', '', '', ''],  # F4
         0x6E: ['', '', '', ''],  # F5
         0x7D: ['', '', '', ''],  # F6
-        0x71: ['', '', '', ''],  # F7
-        0x70: ['', '', '', ''],  # F8
-        0x72: ['', '', '', ''],  # F9
-        0x73: ['', '', '', ''],  # F10
+        # 0x71 / 0x70 / 0x72 / 0x73 — confirmed arrow keys, not F7-F10
+
+        # ARROW KEYS (dedicated cluster, confirmed by kbdscan)
+        0x71: [chr(0x1B), chr(0x1B), chr(0x1B), '', 'A'],  # UP ARROW
+        0x70: [chr(0x1B), chr(0x1B), chr(0x1B), '', 'B'],  # DOWN ARROW
+        0x72: [chr(0x1B), chr(0x1B), chr(0x1B), '', 'D'],  # LEFT ARROW
+        0x73: [chr(0x1B), chr(0x1B), chr(0x1B), '', 'C'],  # RIGHT ARROW
 
         # ROW 1 — Number row (Programmer Dvorak)
         0x3E: [chr(0x1B), '$', '', ''],  # ESC unshifted / $ shifted (backtick key)
