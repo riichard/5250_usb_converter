@@ -53,7 +53,7 @@ systemctl start "${SERVICE_FILE}"
 
 echo ""
 echo "==> Done. Service status:"
-systemctl status "${SERVICE_FILE}" --no-pager
+systemctl status "${SERVICE_FILE}" --no-pager || true
 echo ""
 echo "Useful commands:"
 echo "  journalctl -u ibm5250.service -f        # follow live logs"
