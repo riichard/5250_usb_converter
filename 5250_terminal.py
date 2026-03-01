@@ -2512,6 +2512,17 @@ class MyPrompt(cmd.Cmd):
         term[cmd.Cmd.activeTerminal].processScanCode(int(code, 16))
         return
 
+    def do_kbdscan(self, _):
+        """Toggle scancode spy mode: print hex scancode for every key pressed.
+
+        Run this, then press each unknown key (e.g. arrow keys) to see its
+        scancode. Run again to turn off."""
+        global scancodeSpy
+        scancodeSpy = not scancodeSpy
+        state = "ON" if scancodeSpy else "OFF"
+        print(f"Scancode spy {state} — press keys on the IBM terminal to see their hex codes.")
+        return
+
     def do_tx(self, inp):
         print("Transmitting '{}'".format(inp))
         global outputCommandQueue
@@ -3187,7 +3198,9 @@ class VT52_to_5250():
     # Process scan code, either setting make/break status or converting to
     # ASCII and sending to the shell
     def processScanCode(self, scancode):
-        global interceptors
+        global interceptors, scancodeSpy
+        if scancodeSpy:
+            print(f"SCANCODE: {hex(scancode)}", flush=True)
         # Look for break keys
         if scancode in self.scancodeDictionary['EXTRA']:
             # Next char is extra
@@ -4083,6 +4096,7 @@ if __name__ == '__main__':
     outputQueue = [None] * 7
     outputCommandQueue = [None] * 7
     debugKeystrokes = False
+    scancodeSpy = False
     debugIO = False
     debugConnection = False
     ttyfile = None
